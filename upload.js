@@ -48,6 +48,8 @@ function hide_el (el){
        
     var file = _this.files[0]; 
 
+    console.log(file)
+
     reader.readAsDataURL(file);  
     var count =0;
     reader.onprogress=function(){
