@@ -69,9 +69,10 @@ function hide_el (el){
      
     
      if((max_array.length+1)===max){
+        hide_el();
          result.appendChild(div);
          max_array.push(div);
-         hide_el();
+         
      }else{
          result.appendChild(div);
          max_array.push(div)
@@ -85,26 +86,51 @@ function hide_el (el){
  }
 
 
-  function res_net(imgs,){
+  function res_net(imgs,max_array,max){
          
     var result=imgs; 
 
+      
+    
 
-     if(send_img()){
-            
-        var img = creat_img();
+     send_img().then(function(data){
+
+        var img_list=['./imgs/1.jpg','./imgs/2.jpg','./imgs/3.jpg'];
+
+        var random = Math.random();
+
+          
+        if(random<0.3){
+             var src= img_list[0]
+        }else if(random<0.7){
+            var src= img_list[1]
+        }else{
+            var src= img_list[2]
+        }
+        
+        var img = creat_img(src);
 
         var div = creat_div();
     
         div.appendChild(img)
     
-        result.appendChild(div);
+        if((max_array.length+1)===max){
+            hide_el();
+            result.appendChild(div);
+            max_array.push(div);
+           
+        }else{
+            result.appendChild(div);
+            max_array.push(div)
+            
+        }
+
+     })
+            
+        
 
 
-     }else{
-           console.log('progress....')
-     }
-
+   
 
 
     
@@ -114,9 +140,13 @@ function hide_el (el){
 
   function send_img (){
         
-      setTimeout(function(){
-            return '1.jpg' 
-      },1000)
+    return new Promise(function(resolve){
+         setTimeout(function(){
+            resolve();
+            return '1.jpg';
+            
+        },1000)   
+    })  
 
 
   }
@@ -150,7 +180,7 @@ function Upload (option){
            if(isreader){
                 local_reader(that,imgs,max,max_array);
            }else{
-               res_net(imgs)
+               res_net(imgs,max_array,max)
            }
            
             
